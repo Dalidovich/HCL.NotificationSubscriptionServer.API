@@ -1,3 +1,7 @@
+using HCL.NotificationSubscriptionServer.API.DAL;
+using HCL.NotificationSubscriptionServer.API.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
+
 namespace HCL.NotificationSubscriptionServer.API
 {
     public class Program
@@ -9,6 +13,9 @@ namespace HCL.NotificationSubscriptionServer.API
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddDbContext<AppDBContext>(opt => opt.UseNpgsql(
+               builder.Configuration.GetConnectionString(StandartConst.NameConnection)));
 
             var app = builder.Build();
 

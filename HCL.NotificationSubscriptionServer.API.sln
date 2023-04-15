@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HCL.NotificationSubscriptio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HCL.NotificationSubscriptionServer.API.Domain", "HCL.NotificationSubscriptionServer.API.Domain\HCL.NotificationSubscriptionServer.API.Domain.csproj", "{F9623E11-219B-4D40-A865-BEFA68042D48}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HCL.NotificationSubscriptionServer.API.DAL", "HCL.NotificationSubscriptionServer.API.DAL\HCL.NotificationSubscriptionServer.API.DAL.csproj", "{2FBAFDEF-B215-43E4-A939-584E20A4553E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F9623E11-219B-4D40-A865-BEFA68042D48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9623E11-219B-4D40-A865-BEFA68042D48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9623E11-219B-4D40-A865-BEFA68042D48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FBAFDEF-B215-43E4-A939-584E20A4553E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FBAFDEF-B215-43E4-A939-584E20A4553E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FBAFDEF-B215-43E4-A939-584E20A4553E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FBAFDEF-B215-43E4-A939-584E20A4553E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -11,8 +11,8 @@ namespace HCL.NotificationSubscriptionServer.API.Domain.Entities
     public class Relationship
     {
         public Guid? Id { get; set; }
-        public Guid? AccountMasterId { get; set; }
-        public Guid? AccountSlaveId { get; set; }
+        public Guid AccountMasterId { get; set; }
+        public Guid AccountSlaveId { get; set; }
         public RelationshipStatus Status { get; set; }
     }
 }
