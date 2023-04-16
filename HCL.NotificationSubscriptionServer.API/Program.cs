@@ -9,6 +9,9 @@ namespace HCL.NotificationSubscriptionServer.API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.AddRepositores();
+            builder.AddServices();
+            builder.AddODataProperty();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
@@ -29,8 +32,8 @@ namespace HCL.NotificationSubscriptionServer.API
 
             app.UseAuthorization();
 
-
             app.MapControllers();
+
 
             app.Run();
         }

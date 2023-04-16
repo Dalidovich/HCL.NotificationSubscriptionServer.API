@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
       <PrivateAssets>all</PrivateAssets>
@@ -16,11 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\HCL.NotificationSubscriptionServer.API.DAL\HCL.NotificationSubscriptionServer.API.DAL.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HCL.NotificationSubscriptionServer.API.DAL\HCL.NotificationSubscriptionServer.API.DAL.csproj" />
+    <Folder Include="Extension\" />
   </ItemGroup>
 
 </Project>

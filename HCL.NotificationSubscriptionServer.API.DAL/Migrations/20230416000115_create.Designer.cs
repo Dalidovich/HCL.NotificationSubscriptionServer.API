@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HCL.NotificationSubscriptionServer.API.DAL.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20230415171327_create")]
+    [Migration("20230416000115_create")]
     partial class create
     {
         /// <inheritdoc />
