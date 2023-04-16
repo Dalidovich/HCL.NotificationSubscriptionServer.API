@@ -26,7 +26,7 @@ namespace HCL.NotificationSubscriptionServer.API.DAL.Repositories
 
         public IQueryable<Relationship> GetAsync()
         {
-            return _db.Relationships;
+            return _db.Relationships.AsQueryable();
         }
 
         public async Task<bool> SaveAsync()

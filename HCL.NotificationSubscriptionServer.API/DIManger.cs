@@ -1,4 +1,6 @@
-﻿using HCL.NotificationSubscriptionServer.API.DAL;
+﻿using HCL.NotificationSubscriptionServer.API.BLL.Interfaces;
+using HCL.NotificationSubscriptionServer.API.BLL.Services;
+using HCL.NotificationSubscriptionServer.API.DAL;
 using HCL.NotificationSubscriptionServer.API.DAL.Repositories;
 using HCL.NotificationSubscriptionServer.API.DAL.Repositories.Interfaces;
 using HCL.NotificationSubscriptionServer.API.Domain.Entities;
@@ -20,8 +22,8 @@ namespace HCL.NotificationSubscriptionServer.API
 
         public static void AddServices(this WebApplicationBuilder webApplicationBuilder)
         {
-            //webApplicationBuilder.Services.AddScoped<IAccountService, AccountService>();
-            //webApplicationBuilder.Services.AddScoped<IRegistrationService, RegistrationService>();
+            webApplicationBuilder.Services.AddScoped<INotificationService, NotificationService>();
+            webApplicationBuilder.Services.AddScoped<IRelationshipService, RelationshipService>();
         }
         public static void AddODataProperty(this WebApplicationBuilder webApplicationBuilder)
         {

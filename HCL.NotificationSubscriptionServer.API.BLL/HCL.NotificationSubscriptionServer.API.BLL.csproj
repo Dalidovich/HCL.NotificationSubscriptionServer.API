@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HCL.NotificationSubscriptionServer.API.DAL\HCL.NotificationSubscriptionServer.API.DAL.csproj" />
+    <ProjectReference Include="..\HCL.NotificationSubscriptionServer.API.Domain\HCL.NotificationSubscriptionServer.API.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -17,11 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HCL.NotificationSubscriptionServer.API.BLL\HCL.NotificationSubscriptionServer.API.BLL.csproj" />
     <ProjectReference Include="..\HCL.NotificationSubscriptionServer.API.DAL\HCL.NotificationSubscriptionServer.API.DAL.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Extension\" />
   </ItemGroup>
 
 </Project>

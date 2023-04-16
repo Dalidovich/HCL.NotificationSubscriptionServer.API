@@ -25,9 +25,9 @@ namespace HCL.NotificationSubscriptionServer.API.DAL.Configuration
                    .HasColumnType(EntityDataTypes.Guid)
                    .HasColumnName("pk_notification_id");
 
-            builder.Property(e => e.AccountId)
+            builder.Property(e => e.RelationshipId)
                    .HasColumnType(EntityDataTypes.Guid)
-                   .HasColumnName("account_id");
+                   .HasColumnName("fk_relationship_id");
 
             builder.Property(e => e.ArticleId)
                    .HasColumnType(EntityDataTypes.Guid)

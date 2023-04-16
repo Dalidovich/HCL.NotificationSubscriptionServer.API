@@ -31,6 +31,11 @@ namespace HCL.NotificationSubscriptionServer.API.DAL.Configuration
             builder.Property(e => e.Status)
                    .HasColumnType(EntityDataTypes.Smallint)
                    .HasColumnName("relationship_status");
+
+            builder.HasMany(n => n.notifications)
+                   .WithOne(r => r.Relationship)
+                   .HasPrincipalKey(r => r.Id)
+                   .HasForeignKey(n => n.RelationshipId);
         }
     }
 }
