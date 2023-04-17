@@ -1,5 +1,4 @@
-﻿using HCL.NotificationSubscriptionServer.API.Domain.DTO;
-using HCL.NotificationSubscriptionServer.API.Domain.Entities;
+﻿using HCL.NotificationSubscriptionServer.API.Domain.Entities;
 using HCL.NotificationSubscriptionServer.API.Domain.InnerResponse;
 
 namespace HCL.NotificationSubscriptionServer.API.BLL.Interfaces

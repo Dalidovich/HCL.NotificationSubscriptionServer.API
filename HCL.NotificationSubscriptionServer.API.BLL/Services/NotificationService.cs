@@ -1,41 +1,42 @@
 ﻿using HCL.NotificationSubscriptionServer.API.BLL.Interfaces;
 using HCL.NotificationSubscriptionServer.API.DAL.Repositories.Interfaces;
-using HCL.NotificationSubscriptionServer.API.Domain.DTO;
 using HCL.NotificationSubscriptionServer.API.Domain.Entities;
 using HCL.NotificationSubscriptionServer.API.Domain.Enums;
 using HCL.NotificationSubscriptionServer.API.Domain.InnerResponse;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HCL.NotificationSubscriptionServer.API.BLL.Services
 {
     public class NotificationService : INotificationService
     {
         private readonly INotificationRepositories _notificationRepositories;
+        private readonly IRelationshipService _relationshipService;
         protected readonly ILogger<INotificationService> _logger;
 
-        public NotificationService(INotificationRepositories notificationRepositories, ILogger<INotificationService> logger)
+        public NotificationService(INotificationRepositories notificationRepositories, ILogger<INotificationService> logger
+            , IRelationshipService relationshipService)
         {
             _notificationRepositories = notificationRepositories;
             _logger = logger;
+            _relationshipService = relationshipService;
         }
 
-        public async Task<BaseResponse<Notification>> CreateNotification(Notification notification)
+        public async Task<BaseResponse<bool>> CreateNotification(string articleId, Guid accountId)
         {
             try
             {
-                var createdAccount = await _notificationRepositories.AddAsync(notification);
-                await _notificationRepositories.SaveAsync();
+                var notifications = _relationshipService.GetRelationshipOData().Data
+                    .Where(x => x.AccountMasterId == accountId || x.Status == RelationshipStatus.Subscription)
+                    .Select(x => new Notification()
+                    {
+                        ArticleId = articleId,
+                        RelationshipId = (Guid)x.Id
+                    });
+                await _notificationRepositories.AddRangeAsync(notifications);
 
-                return new StandartResponse<Notification>()
+                return new StandartResponse<bool>()
                 {
-                    Data = createdAccount,
+                    Data = await _notificationRepositories.SaveAsync(),
                     StatusCode = StatusCode.NotificationCreate
                 };
             }
@@ -43,7 +44,7 @@ namespace HCL.NotificationSubscriptionServer.API.BLL.Services
             {
                 _logger.LogError(ex, $"[CreateNotification] : {ex.Message}");
 
-                return new StandartResponse<Notification>()
+                return new StandartResponse<bool>()
                 {
                     Message = ex.Message,
                     StatusCode = StatusCode.InternalServerError,

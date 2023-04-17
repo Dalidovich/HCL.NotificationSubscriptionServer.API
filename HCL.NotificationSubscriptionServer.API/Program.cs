@@ -11,6 +11,7 @@ namespace HCL.NotificationSubscriptionServer.API
             var builder = WebApplication.CreateBuilder(args);
             builder.AddRepositores();
             builder.AddServices();
+            builder.AddKafkaProperty();
             builder.AddODataProperty();
 
             builder.Services.AddControllers();
@@ -33,8 +34,6 @@ namespace HCL.NotificationSubscriptionServer.API
             app.UseAuthorization();
 
             app.MapControllers();
-
-
             app.Run();
         }
     }

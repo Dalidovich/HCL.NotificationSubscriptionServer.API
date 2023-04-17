@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 
 namespace HCL.NotificationSubscriptionServer.API.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class RelationshipODataController : ODataController
     {
         private readonly ILogger<RelationshipODataController> _logger;

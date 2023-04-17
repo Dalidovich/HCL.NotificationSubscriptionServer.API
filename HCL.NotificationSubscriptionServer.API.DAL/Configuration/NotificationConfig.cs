@@ -30,7 +30,7 @@ namespace HCL.NotificationSubscriptionServer.API.DAL.Configuration
                    .HasColumnName("fk_relationship_id");
 
             builder.Property(e => e.ArticleId)
-                   .HasColumnType(EntityDataTypes.Guid)
+                   .HasColumnType(EntityDataTypes.Character_varying)
                    .HasColumnName("article_id");
         }
     }

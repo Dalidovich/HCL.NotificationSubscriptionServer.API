@@ -1,7 +1,4 @@
 ﻿using HCL.NotificationSubscriptionServer.API.BLL.Interfaces;
-using HCL.NotificationSubscriptionServer.API.BLL.Services;
-using HCL.NotificationSubscriptionServer.API.Domain.DTO;
-using HCL.NotificationSubscriptionServer.API.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +6,8 @@ using System.Data;
 
 namespace HCL.NotificationSubscriptionServer.API.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class NotificationController : ControllerBase
     {
         private readonly ILogger<NotificationController> _logger;
@@ -21,7 +20,7 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
         }
 
         [Authorize]
-        [HttpPost("v1/Relationship")]
+        [HttpDelete("v1/OwnRelationship")]
         public async Task<IActionResult> DeleteNotification([FromQuery] Guid ownId, [FromQuery] Guid id)
         {
             var notification = await _notificationService.GetNotificationOData().Data.Where(x => x.Id == id).Include(x=>x.Relationship).SingleOrDefaultAsync();
@@ -32,6 +31,7 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
             else if (notification.Relationship.AccountSlaveId == ownId)
             {
                 var resourse = await _notificationService.DeleteNotification(id);
+
                 return NoContent();
             }
             return Forbid();

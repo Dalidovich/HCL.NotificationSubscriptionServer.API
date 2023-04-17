@@ -21,7 +21,6 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
             _relationshipService = relationshipService;
         }
 
-
         [Authorize]
         [HttpPost("v1/Relationship")]
         public async Task<IActionResult> CreateRelationship([FromQuery] RelationshipDTO articleDTO)
@@ -41,7 +40,7 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
         }
 
         [Authorize]
-        [HttpPost("v1/Relationship")]
+        [HttpDelete("v1/OwnRelationship")]
         public async Task<IActionResult> DeleteRelationship([FromQuery] Guid ownId, [FromQuery] Guid id)
         {
             var relation=await _relationshipService.GetRelationshipOData().Data.Where(x => x.Id == id).SingleOrDefaultAsync();
@@ -52,6 +51,7 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
             else if (relation.AccountSlaveId == ownId)
             {
                 var resourse = await _relationshipService.DeleteRelationship(id);
+
                 return NoContent();
             }
 

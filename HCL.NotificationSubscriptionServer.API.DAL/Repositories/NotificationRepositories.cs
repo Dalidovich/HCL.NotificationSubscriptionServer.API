@@ -18,6 +18,16 @@ namespace HCL.NotificationSubscriptionServer.API.DAL.Repositories
             return createdEntity.Entity;
         }
 
+        public  async Task AddRangeAsync(IEnumerable<Notification> notifications)
+        {
+            await _db.Notifications.AddRangeAsync(notifications);
+        }
+
+        public async Task AddRangeAsync(IQueryable<Notification> notifications)
+        {
+            await _db.Notifications.AddRangeAsync(notifications);
+        }
+
         public bool Delete(Notification entity)
         {
             _db.Notifications.Remove(entity);

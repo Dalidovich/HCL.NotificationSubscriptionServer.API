@@ -1,13 +1,11 @@
 ﻿using HCL.NotificationSubscriptionServer.API.BLL.Interfaces;
 using HCL.NotificationSubscriptionServer.API.BLL.Services;
-using HCL.NotificationSubscriptionServer.API.DAL;
 using HCL.NotificationSubscriptionServer.API.DAL.Repositories;
 using HCL.NotificationSubscriptionServer.API.DAL.Repositories.Interfaces;
+using HCL.NotificationSubscriptionServer.API.Domain.DTO;
 using HCL.NotificationSubscriptionServer.API.Domain.Entities;
-using HCL.NotificationSubscriptionServer.API.Domain.Enums;
-using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.OData;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.OData.ModelBuilder;
 
 namespace HCL.NotificationSubscriptionServer.API
@@ -24,7 +22,9 @@ namespace HCL.NotificationSubscriptionServer.API
         {
             webApplicationBuilder.Services.AddScoped<INotificationService, NotificationService>();
             webApplicationBuilder.Services.AddScoped<IRelationshipService, RelationshipService>();
+            webApplicationBuilder.Services.AddScoped<IKafkaConsumerService, KafkaConsumerService>();
         }
+
         public static void AddODataProperty(this WebApplicationBuilder webApplicationBuilder)
         {
             var odataBuilder = new ODataConventionModelBuilder();
@@ -33,11 +33,14 @@ namespace HCL.NotificationSubscriptionServer.API
 
             webApplicationBuilder.Services.AddControllers().AddOData(opt =>
             {
-                opt.Count().Filter().Expand().Select().OrderBy().SetMaxTop(5000)
-                    .AddRouteComponents("odata", odataBuilder.GetEdmModel());
+                opt.Count().Filter().Expand().Select().OrderBy().SetMaxTop(5000);
                 opt.TimeZone = TimeZoneInfo.Utc;
             });
         }
-
+        public static void AddKafkaProperty(this WebApplicationBuilder webApplicationBuilder)
+        {
+            webApplicationBuilder.Services.Configure<KafkaSettings>(webApplicationBuilder.Configuration.GetSection("KafkaSettings"));
+            webApplicationBuilder.Services.AddSingleton(serviceProvider => serviceProvider.GetRequiredService<IOptions<KafkaSettings>>().Value);
+        }
     }
 }
