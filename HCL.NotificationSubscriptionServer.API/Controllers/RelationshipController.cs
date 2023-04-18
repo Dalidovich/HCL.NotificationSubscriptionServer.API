@@ -41,7 +41,9 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
         [HttpDelete("v1/OwnRelationship")]
         public async Task<IActionResult> DeleteRelationship([FromQuery] Guid ownId, [FromQuery] Guid id)
         {
-            var relation=await _relationshipService.GetRelationshipOData().Data.Where(x => x.Id == id).SingleOrDefaultAsync();
+            var relation=await _relationshipService.GetRelationshipOData().Data
+                ?.Where(x => x.Id == id)
+                .SingleOrDefaultAsync();
             if (relation == null)
             {
 
@@ -61,7 +63,9 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
         [HttpDelete("v1/Relationship")]
         public async Task<IActionResult> DeleteRelationship([FromQuery] Guid id)
         {
-            var relation = await _relationshipService.GetRelationshipOData().Data.Where(x => x.Id == id).SingleOrDefaultAsync();
+            var relation = await _relationshipService.GetRelationshipOData().Data
+                ?.Where(x => x.Id == id)
+                .SingleOrDefaultAsync();
             if (relation == null)
             {
 
