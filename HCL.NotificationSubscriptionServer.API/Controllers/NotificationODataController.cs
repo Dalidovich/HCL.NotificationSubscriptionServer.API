@@ -10,12 +10,10 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
     [Route("api/[controller]")]
     public class NotificationODataController : ODataController
     {
-        private readonly ILogger<NotificationODataController> _logger;
         private readonly INotificationService _notificationService;
 
-        public NotificationODataController(ILogger<NotificationODataController> logger, INotificationService notificationService)
+        public NotificationODataController(INotificationService notificationService)
         {
-            _logger = logger;
             _notificationService = notificationService;
         }
 
@@ -23,6 +21,7 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
         [EnableQuery]
         public IQueryable<Notification> GetNotification()
         {
+
             return _notificationService.GetNotificationOData().Data;
         }
     }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HCL.NotificationSubscriptionServer.API.DAL.Configuration.DataType
+﻿namespace HCL.NotificationSubscriptionServer.API.DAL.Configuration.DataType
 {
     public static class EntityDataTypes
     {

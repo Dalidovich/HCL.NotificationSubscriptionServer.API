@@ -39,6 +39,7 @@ namespace HCL.NotificationSubscriptionServer.API
                 opt.TimeZone = TimeZoneInfo.Utc;
             });
         }
+
         public static void AddKafkaProperty(this WebApplicationBuilder webApplicationBuilder)
         {
             webApplicationBuilder.Services.Configure<KafkaSettings>(webApplicationBuilder.Configuration.GetSection("KafkaSettings"));

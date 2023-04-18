@@ -1,13 +1,10 @@
 ﻿using Confluent.Kafka;
 using Confluent.Kafka.Admin;
 using HCL.NotificationSubscriptionServer.API.Domain.DTO;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 using System.Net;
-using System.Net.NetworkInformation;
 using System.Security.Authentication;
 
-namespace HCL.NotificationSubscriptionServer.API.BLL.Middleware
+namespace HCL.NotificationSubscriptionServer.API.Middleware
 {
     public class ExceptionHandlingMiddleware
     {
@@ -78,6 +75,7 @@ namespace HCL.NotificationSubscriptionServer.API.BLL.Middleware
                 Message = message,
                 StatusCode = httpStatusCode
             };
+
             await response.WriteAsJsonAsync(errorDto);
         }
     }

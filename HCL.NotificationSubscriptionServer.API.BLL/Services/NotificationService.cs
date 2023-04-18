@@ -3,7 +3,6 @@ using HCL.NotificationSubscriptionServer.API.DAL.Repositories.Interfaces;
 using HCL.NotificationSubscriptionServer.API.Domain.Entities;
 using HCL.NotificationSubscriptionServer.API.Domain.Enums;
 using HCL.NotificationSubscriptionServer.API.Domain.InnerResponse;
-using Microsoft.Extensions.Logging;
 
 namespace HCL.NotificationSubscriptionServer.API.BLL.Services
 {
@@ -11,25 +10,23 @@ namespace HCL.NotificationSubscriptionServer.API.BLL.Services
     {
         private readonly INotificationRepositories _notificationRepositories;
         private readonly IRelationshipService _relationshipService;
-        protected readonly ILogger<INotificationService> _logger;
 
-        public NotificationService(INotificationRepositories notificationRepositories, ILogger<INotificationService> logger
-            , IRelationshipService relationshipService)
+        public NotificationService(INotificationRepositories notificationRepositories, IRelationshipService relationshipService)
         {
             _notificationRepositories = notificationRepositories;
-            _logger = logger;
             _relationshipService = relationshipService;
         }
 
         public async Task<BaseResponse<bool>> CreateNotification(string articleId, Guid accountId)
         {
             var notifications = _relationshipService.GetRelationshipOData().Data
-                    ?.Where(x => x.AccountMasterId == accountId || x.Status == RelationshipStatus.Subscription)
+                    ?.Where(x => x.AccountMasterId == accountId && x.Status == RelationshipStatus.Subscription)
                     ?.Select(x => new Notification()
                     {
                         ArticleId = articleId,
                         RelationshipId = (Guid)x.Id
                     });
+
             if (notifications != null)
             {
                 await _notificationRepositories.AddRangeAsync(notifications);
@@ -64,6 +61,7 @@ namespace HCL.NotificationSubscriptionServer.API.BLL.Services
             var contents = _notificationRepositories.GetAsync();
             if (contents.Count() == 0)
             {
+
                 return new StandartResponse<IQueryable<Notification>>()
                 {
                     Message = "entity not found"

@@ -10,12 +10,10 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
     [Route("api/[controller]")]
     public class RelationshipODataController : ODataController
     {
-        private readonly ILogger<RelationshipODataController> _logger;
         private readonly IRelationshipService _relationshipService;
 
-        public RelationshipODataController(ILogger<RelationshipODataController> logger, IRelationshipService relationshipService)
+        public RelationshipODataController(IRelationshipService relationshipService)
         {
-            _logger = logger;
             _relationshipService = relationshipService;
         }
 
@@ -23,6 +21,7 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
         [EnableQuery]
         public IQueryable<Relationship> GetRelationship()
         {
+
             return _relationshipService.GetRelationshipOData().Data;
         }
     }

@@ -3,6 +3,6 @@
     public enum RelationshipStatus
     {
         Normal = 0,
-        Subscription =1,
+        Subscription = 1,
     }
 }

@@ -1,6 +1,4 @@
-﻿using HCL.NotificationSubscriptionServer.API.Domain.DTO;
-
-namespace HCL.NotificationSubscriptionServer.API.Domain.Entities
+﻿namespace HCL.NotificationSubscriptionServer.API.Domain.Entities
 {
     public class Notification
     {

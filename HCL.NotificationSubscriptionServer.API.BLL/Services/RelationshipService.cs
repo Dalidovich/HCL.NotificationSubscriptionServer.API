@@ -1,22 +1,18 @@
 ﻿using HCL.NotificationSubscriptionServer.API.BLL.Interfaces;
 using HCL.NotificationSubscriptionServer.API.DAL.Repositories.Interfaces;
-using HCL.NotificationSubscriptionServer.API.Domain.DTO;
 using HCL.NotificationSubscriptionServer.API.Domain.Entities;
 using HCL.NotificationSubscriptionServer.API.Domain.Enums;
 using HCL.NotificationSubscriptionServer.API.Domain.InnerResponse;
-using Microsoft.Extensions.Logging;
 
 namespace HCL.NotificationSubscriptionServer.API.BLL.Services
 {
     public class RelationshipService : IRelationshipService
     {
         private readonly IRelationshipRepositories _relationshipRepositories;
-        protected readonly ILogger<IRelationshipService> _logger;
 
-        public RelationshipService(IRelationshipRepositories relationshipRepositories, ILogger<IRelationshipService> logger)
+        public RelationshipService(IRelationshipRepositories relationshipRepositories)
         {
             _relationshipRepositories = relationshipRepositories;
-            _logger = logger;
         }
 
         public async Task<BaseResponse<Relationship>> CreateRelationship(Relationship relationship)
@@ -47,6 +43,7 @@ namespace HCL.NotificationSubscriptionServer.API.BLL.Services
             var contents = _relationshipRepositories.GetAsync();
             if (contents.Count() == 0)
             {
+
                 return new StandartResponse<IQueryable<Relationship>>()
                 {
                     Message = "entity not found"

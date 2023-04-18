@@ -2,15 +2,10 @@
 using HCL.NotificationSubscriptionServer.API.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HCL.NotificationSubscriptionServer.API.DAL.Configuration
 {
-    public class NotificationConfig:IEntityTypeConfiguration<Notification>
+    public class NotificationConfig : IEntityTypeConfiguration<Notification>
     {
         public const string Table_name = "notifications";
 

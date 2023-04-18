@@ -1,6 +1,6 @@
-using HCL.NotificationSubscriptionServer.API.BackgroundHostedServices;
 using HCL.NotificationSubscriptionServer.API.DAL;
 using HCL.NotificationSubscriptionServer.API.Domain.Enums;
+using HCL.NotificationSubscriptionServer.API.Middleware;
 using Microsoft.EntityFrameworkCore;
 
 namespace HCL.NotificationSubscriptionServer.API
@@ -10,6 +10,7 @@ namespace HCL.NotificationSubscriptionServer.API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
             builder.AddRepositores();
             builder.AddServices();
             builder.AddKafkaProperty();
@@ -31,12 +32,12 @@ namespace HCL.NotificationSubscriptionServer.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
             app.MapControllers();
+
             app.Run();
         }
     }

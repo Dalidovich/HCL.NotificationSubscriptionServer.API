@@ -11,12 +11,10 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
     [Route("api/[controller]")]
     public class RelationshipController : ControllerBase
     {
-        private readonly ILogger<RelationshipController> _logger;
         private readonly IRelationshipService _relationshipService;
 
-        public RelationshipController(ILogger<RelationshipController> logger, IRelationshipService relationshipService)
+        public RelationshipController(IRelationshipService relationshipService)
         {
-            _logger = logger;
             _relationshipService = relationshipService;
         }
 
@@ -29,6 +27,7 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
                 var resourse = await _relationshipService.CreateRelationship(new Relationship(articleDTO));
                 if (resourse.Data != null)
                 {
+
                     return Created("", new { articleId = resourse.Data.Id });
                 }
 
@@ -45,6 +44,7 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
             var relation=await _relationshipService.GetRelationshipOData().Data.Where(x => x.Id == id).SingleOrDefaultAsync();
             if (relation == null)
             {
+
                 return NotFound();
             }
             else if (relation.AccountSlaveId == ownId)
@@ -64,6 +64,7 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
             var relation = await _relationshipService.GetRelationshipOData().Data.Where(x => x.Id == id).SingleOrDefaultAsync();
             if (relation == null)
             {
+
                 return NotFound();
             }
             var resourse = await _relationshipService.DeleteRelationship(id);

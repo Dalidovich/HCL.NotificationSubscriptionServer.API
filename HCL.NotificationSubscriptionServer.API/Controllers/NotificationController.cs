@@ -10,12 +10,10 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
     [Route("api/[controller]")]
     public class NotificationController : ControllerBase
     {
-        private readonly ILogger<NotificationController> _logger;
         private readonly INotificationService _notificationService;
 
-        public NotificationController(ILogger<NotificationController> logger, INotificationService notificationService)
+        public NotificationController(INotificationService notificationService)
         {
-            _logger = logger;
             _notificationService = notificationService;
         }
 
@@ -23,9 +21,10 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
         [HttpDelete("v1/OwnRelationship")]
         public async Task<IActionResult> DeleteNotification([FromQuery] Guid ownId, [FromQuery] Guid id)
         {
-            var notification = await _notificationService.GetNotificationOData().Data.Where(x => x.Id == id).Include(x=>x.Relationship).SingleOrDefaultAsync();
+            var notification = await _notificationService.GetNotificationOData().Data.Where(x => x.Id == id).Include(x => x.Relationship).SingleOrDefaultAsync();
             if (notification == null)
             {
+
                 return NotFound();
             }
             else if (notification.Relationship.AccountSlaveId == ownId)
@@ -34,6 +33,7 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
 
                 return NoContent();
             }
+
             return Forbid();
         }
 
@@ -44,6 +44,7 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
             var notification = await _notificationService.GetNotificationOData().Data.Where(x => x.Id == id).SingleOrDefaultAsync();
             if (notification == null)
             {
+
                 return NotFound();
             }
             var resourse = await _notificationService.DeleteNotification(id);

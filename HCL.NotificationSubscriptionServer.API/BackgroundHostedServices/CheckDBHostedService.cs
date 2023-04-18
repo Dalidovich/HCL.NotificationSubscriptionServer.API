@@ -1,5 +1,4 @@
-﻿using HCL.NotificationSubscriptionServer.API.BLL.Interfaces;
-using HCL.NotificationSubscriptionServer.API.DAL;
+﻿using HCL.NotificationSubscriptionServer.API.DAL;
 
 namespace HCL.NotificationSubscriptionServer.API.BackgroundHostedServices
 {
@@ -17,10 +16,12 @@ namespace HCL.NotificationSubscriptionServer.API.BackgroundHostedServices
         {
             using var scope = _serviceScopeFactory.CreateScope();
             _appDBContext = scope.ServiceProvider.GetRequiredService<AppDBContext>();
+
             if (await _appDBContext.Database.EnsureCreatedAsync())
             {
                 _appDBContext.UpdateDatabase();
             }
+
             return;
         }
     }

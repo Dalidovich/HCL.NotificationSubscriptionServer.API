@@ -18,7 +18,9 @@ namespace HCL.NotificationSubscriptionServer.API.BackgroundHostedServices
         {
             using var scope = _serviceScopeFactory.CreateScope();
             _kafkaConsumerService = scope.ServiceProvider.GetRequiredService<IKafkaConsumerService>();
+
             _kafkaConsumerService.Subscribe();
+
             while (!stoppingToken.IsCancellationRequested)
             {
                 await Task.Delay(5);
