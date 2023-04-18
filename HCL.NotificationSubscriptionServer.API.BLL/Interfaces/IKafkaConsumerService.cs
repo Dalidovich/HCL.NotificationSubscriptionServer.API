@@ -3,5 +3,6 @@
     public interface IKafkaConsumerService:IDisposable
     {
         public Task Listen();
+        public void Subscribe();
     }
 }

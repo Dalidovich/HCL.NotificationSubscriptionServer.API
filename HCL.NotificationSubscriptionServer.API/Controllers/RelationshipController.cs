@@ -4,7 +4,6 @@ using HCL.NotificationSubscriptionServer.API.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
 
 namespace HCL.NotificationSubscriptionServer.API.Controllers
 {

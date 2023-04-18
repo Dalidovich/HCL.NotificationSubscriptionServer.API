@@ -15,7 +15,7 @@ namespace HCL.NotificationSubscriptionServer.API.BLL.Services
         private readonly INotificationService _notificationService;
         private readonly ILogger<KafkaConsumerService> _logger;
 
-        public KafkaConsumerService(KafkaSettings kafkaSettings,INotificationService notificationService)
+        public KafkaConsumerService(KafkaSettings kafkaSettings,INotificationService notificationService, ILogger<KafkaConsumerService> logger)
         {
             _bootstrapServers = kafkaSettings.BootstrapServers;
             _topic = kafkaSettings.Topic;
@@ -24,32 +24,24 @@ namespace HCL.NotificationSubscriptionServer.API.BLL.Services
                 BootstrapServers = _bootstrapServers,
                 GroupId="notificationsCreator",
                 AutoOffsetReset= AutoOffsetReset.Earliest,
+                SaslUsername = kafkaSettings.User,
+                SaslPassword = kafkaSettings.Password,
             };
             _consumer = new ConsumerBuilder<string, string>(config).Build();
             _notificationService = notificationService;
+            _logger = logger;
         }
 
-        public async Task Listen()
+        public void Subscribe()
         {
             _consumer.Subscribe(_topic);
-            try
+        }
+        public async Task Listen()
+        {
+            var cr = _consumer.Consume(TimeSpan.FromSeconds(5));
+            if (cr != null)
             {
-                while (true)
-                {
-                    var cr = _consumer.Consume(TimeSpan.FromSeconds(5));
-                    if (cr != null)
-                    {
-                        await _notificationService.CreateNotification(cr.Message.Key, new Guid(cr.Message.Value));
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"[CreateNotification] : {ex.Message}");
-            }
-            finally
-            {
-                _consumer.Close();
+                await _notificationService.CreateNotification(cr.Message.Key, new Guid(cr.Message.Value));
             }
         }
 

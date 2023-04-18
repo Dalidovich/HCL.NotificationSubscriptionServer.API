@@ -13,6 +13,7 @@ namespace HCL.NotificationSubscriptionServer.API
             builder.AddServices();
             builder.AddKafkaProperty();
             builder.AddODataProperty();
+            builder.Services.AddHostedService<KafkaConsumerHostedService>();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();

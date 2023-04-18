@@ -1,7 +1,5 @@
 ﻿using HCL.NotificationSubscriptionServer.API.BLL.Interfaces;
-using HCL.NotificationSubscriptionServer.API.Domain.DTO;
 using HCL.NotificationSubscriptionServer.API.Domain.Entities;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
