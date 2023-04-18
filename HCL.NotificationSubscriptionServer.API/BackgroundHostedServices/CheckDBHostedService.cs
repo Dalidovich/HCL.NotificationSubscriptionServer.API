@@ -21,6 +21,7 @@ namespace HCL.NotificationSubscriptionServer.API.BackgroundHostedServices
             {
                 _appDBContext.UpdateDatabase();
             }
+            return;
         }
     }
 }

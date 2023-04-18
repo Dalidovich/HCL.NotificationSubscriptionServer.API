@@ -43,7 +43,6 @@ namespace HCL.NotificationSubscriptionServer.API.BLL.Services
             if (cr != null)
             {
                 await _notificationService.CreateNotification(cr.Message.Key, new Guid(cr.Message.Value));
-                _consumer.StoreOffset(cr);
             }
         }
 

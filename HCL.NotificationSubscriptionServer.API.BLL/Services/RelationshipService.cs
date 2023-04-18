@@ -21,82 +21,43 @@ namespace HCL.NotificationSubscriptionServer.API.BLL.Services
 
         public async Task<BaseResponse<Relationship>> CreateRelationship(Relationship relationship)
         {
-            try
-            {
-                var createdRelationship = await _relationshipRepositories.AddAsync(relationship);
-                await _relationshipRepositories.SaveAsync();
+            var createdRelationship = await _relationshipRepositories.AddAsync(relationship);
+            await _relationshipRepositories.SaveAsync();
 
-                return new StandartResponse<Relationship>()
-                {
-                    Data = createdRelationship,
-                    StatusCode = StatusCode.NotificationCreate
-                };
-            }
-            catch (Exception ex)
+            return new StandartResponse<Relationship>()
             {
-                _logger.LogError(ex, $"[CreateRelationship] : {ex.Message}");
-
-                return new StandartResponse<Relationship>()
-                {
-                    Message = ex.Message,
-                    StatusCode = StatusCode.InternalServerError,
-                };
-            }
+                Data = createdRelationship,
+                StatusCode = StatusCode.NotificationCreate
+            };
         }
 
         public async Task<BaseResponse<bool>> DeleteRelationship(Guid id)
         {
-            try
-            {
-                _relationshipRepositories.Delete(new Relationship(id));
+            _relationshipRepositories.Delete(new Relationship(id));
 
-                return new StandartResponse<bool>()
-                {
-                    Data = await _relationshipRepositories.SaveAsync(),
-                    StatusCode = StatusCode.NotificationDelete
-                };
-            }
-            catch (Exception ex)
+            return new StandartResponse<bool>()
             {
-                _logger.LogError(ex, $"[DeleteRelationship] : {ex.Message}");
-
-                return new StandartResponse<bool>()
-                {
-                    Message = ex.Message,
-                    StatusCode = StatusCode.InternalServerError,
-                };
-            }
+                Data = await _relationshipRepositories.SaveAsync(),
+                StatusCode = StatusCode.NotificationDelete
+            };
         }
 
         public BaseResponse<IQueryable<Relationship>> GetRelationshipOData()
         {
-            try
+            var contents = _relationshipRepositories.GetAsync();
+            if (contents.Count() == 0)
             {
-                var contents = _relationshipRepositories.GetAsync();
-                if (contents.Count() == 0)
-                {
-                    return new StandartResponse<IQueryable<Relationship>>()
-                    {
-                        Message = "entity not found"
-                    };
-                }
-
                 return new StandartResponse<IQueryable<Relationship>>()
                 {
-                    Data = contents,
-                    StatusCode = StatusCode.NotificationRead
+                    Message = "entity not found"
                 };
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"[GetRelationshipOData] : {ex.Message}");
 
-                return new StandartResponse<IQueryable<Relationship>>()
-                {
-                    Message = ex.Message,
-                    StatusCode = StatusCode.InternalServerError,
-                };
-            }
+            return new StandartResponse<IQueryable<Relationship>>()
+            {
+                Data = contents,
+                StatusCode = StatusCode.NotificationRead
+            };
         }
     }
 }

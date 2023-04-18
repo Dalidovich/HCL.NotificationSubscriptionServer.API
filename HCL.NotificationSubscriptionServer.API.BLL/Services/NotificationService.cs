@@ -23,15 +23,15 @@ namespace HCL.NotificationSubscriptionServer.API.BLL.Services
 
         public async Task<BaseResponse<bool>> CreateNotification(string articleId, Guid accountId)
         {
-            try
-            {
-                var notifications = _relationshipService.GetRelationshipOData().Data
-                    .Where(x => x.AccountMasterId == accountId || x.Status == RelationshipStatus.Subscription)
-                    .Select(x => new Notification()
+            var notifications = _relationshipService.GetRelationshipOData().Data
+                    ?.Where(x => x.AccountMasterId == accountId || x.Status == RelationshipStatus.Subscription)
+                    ?.Select(x => new Notification()
                     {
                         ArticleId = articleId,
                         RelationshipId = (Guid)x.Id
                     });
+            if (notifications != null)
+            {
                 await _notificationRepositories.AddRangeAsync(notifications);
 
                 return new StandartResponse<bool>()
@@ -40,71 +40,41 @@ namespace HCL.NotificationSubscriptionServer.API.BLL.Services
                     StatusCode = StatusCode.NotificationCreate
                 };
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"[CreateNotification] : {ex.Message}");
 
-                return new StandartResponse<bool>()
-                {
-                    Message = ex.Message,
-                    StatusCode = StatusCode.InternalServerError,
-                };
-            }
+            return new StandartResponse<bool>()
+            {
+                Data = false,
+                StatusCode = StatusCode.NotificationCreate
+            };
         }
 
         public async Task<BaseResponse<bool>> DeleteNotification(Guid id)
         {
-            try
-            {
-                _notificationRepositories.Delete(new Notification(id));
+            _notificationRepositories.Delete(new Notification(id));
 
-                return new StandartResponse<bool>()
-                {
-                    Data = await _notificationRepositories.SaveAsync(),
-                    StatusCode = StatusCode.NotificationDelete
-                };
-            }
-            catch (Exception ex)
+            return new StandartResponse<bool>()
             {
-                _logger.LogError(ex, $"[DeleteNotification] : {ex.Message}");
-
-                return new StandartResponse<bool>()
-                {
-                    Message = ex.Message,
-                    StatusCode = StatusCode.InternalServerError,
-                };
-            }
+                Data = await _notificationRepositories.SaveAsync(),
+                StatusCode = StatusCode.NotificationDelete
+            };
         }
 
         public BaseResponse<IQueryable<Notification>> GetNotificationOData()
         {
-            try
+            var contents = _notificationRepositories.GetAsync();
+            if (contents.Count() == 0)
             {
-                var contents =_notificationRepositories.GetAsync();
-                if (contents.Count() == 0)
-                {
-                    return new StandartResponse<IQueryable<Notification>>()
-                    {
-                        Message = "entity not found"
-                    };
-                }
-
                 return new StandartResponse<IQueryable<Notification>>()
                 {
-                    Data = contents,
-                    StatusCode = StatusCode.NotificationRead
+                    Message = "entity not found"
                 };
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"[GetNotificationOData] : {ex.Message}");
 
-                return new StandartResponse<IQueryable<Notification>>()
-                {
-                    Message = ex.Message,
-                    StatusCode = StatusCode.InternalServerError,
-                };
-            }
+            return new StandartResponse<IQueryable<Notification>>()
+            {
+                Data = contents,
+                StatusCode = StatusCode.NotificationRead
+            };
         }
     }
 }
