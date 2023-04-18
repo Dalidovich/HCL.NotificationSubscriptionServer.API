@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace HCL.NotificationSubscriptionServer.API
+namespace HCL.NotificationSubscriptionServer.API.BackgroundHostedServices
 {
     public class KafkaConsumerHostedService : BackgroundService
     {
@@ -19,7 +19,7 @@ namespace HCL.NotificationSubscriptionServer.API
             using var scope = _serviceScopeFactory.CreateScope();
             _kafkaConsumerService = scope.ServiceProvider.GetRequiredService<IKafkaConsumerService>();
             _kafkaConsumerService.Subscribe();
-            while (!stoppingToken.IsCancellationRequested) 
+            while (!stoppingToken.IsCancellationRequested)
             {
                 await Task.Delay(5);
                 await _kafkaConsumerService.Listen();

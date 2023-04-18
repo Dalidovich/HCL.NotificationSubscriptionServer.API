@@ -26,6 +26,7 @@ namespace HCL.NotificationSubscriptionServer.API.BLL.Services
                 AutoOffsetReset= AutoOffsetReset.Earliest,
                 SaslUsername = kafkaSettings.User,
                 SaslPassword = kafkaSettings.Password,
+                EnableAutoCommit = true,
             };
             _consumer = new ConsumerBuilder<string, string>(config).Build();
             _notificationService = notificationService;
@@ -42,6 +43,7 @@ namespace HCL.NotificationSubscriptionServer.API.BLL.Services
             if (cr != null)
             {
                 await _notificationService.CreateNotification(cr.Message.Key, new Guid(cr.Message.Value));
+                _consumer.StoreOffset(cr);
             }
         }
 

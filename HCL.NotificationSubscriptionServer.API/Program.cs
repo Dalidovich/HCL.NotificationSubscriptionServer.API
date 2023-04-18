@@ -1,3 +1,4 @@
+using HCL.NotificationSubscriptionServer.API.BackgroundHostedServices;
 using HCL.NotificationSubscriptionServer.API.DAL;
 using HCL.NotificationSubscriptionServer.API.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,7 @@ namespace HCL.NotificationSubscriptionServer.API
             builder.AddServices();
             builder.AddKafkaProperty();
             builder.AddODataProperty();
-            builder.Services.AddHostedService<KafkaConsumerHostedService>();
+            builder.AddHostedServices();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();

@@ -1,4 +1,5 @@
-﻿using HCL.NotificationSubscriptionServer.API.BLL.Interfaces;
+﻿using HCL.NotificationSubscriptionServer.API.BackgroundHostedServices;
+using HCL.NotificationSubscriptionServer.API.BLL.Interfaces;
 using HCL.NotificationSubscriptionServer.API.BLL.Services;
 using HCL.NotificationSubscriptionServer.API.DAL.Repositories;
 using HCL.NotificationSubscriptionServer.API.DAL.Repositories.Interfaces;
@@ -41,6 +42,12 @@ namespace HCL.NotificationSubscriptionServer.API
         {
             webApplicationBuilder.Services.Configure<KafkaSettings>(webApplicationBuilder.Configuration.GetSection("KafkaSettings"));
             webApplicationBuilder.Services.AddSingleton(serviceProvider => serviceProvider.GetRequiredService<IOptions<KafkaSettings>>().Value);
+        }
+
+        public static void AddHostedServices(this WebApplicationBuilder webApplicationBuilder)
+        {
+            webApplicationBuilder.Services.AddHostedService<KafkaConsumerHostedService>();
+            webApplicationBuilder.Services.AddHostedService<CheckDBHostedService>();
         }
     }
 }
