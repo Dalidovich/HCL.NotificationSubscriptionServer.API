@@ -22,19 +22,14 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
         [HttpPost("v1/Relationship")]
         public async Task<IActionResult> CreateRelationship([FromQuery] RelationshipDTO articleDTO)
         {
-            if (ModelState.IsValid)
+            var resourse = await _relationshipService.CreateRelationship(new Relationship(articleDTO));
+            if (resourse.Data != null)
             {
-                var resourse = await _relationshipService.CreateRelationship(new Relationship(articleDTO));
-                if (resourse.Data != null)
-                {
 
-                    return Created("", new { articleId = resourse.Data.Id });
-                }
-
-                return NotFound();
+                return Created("", new { articleId = resourse.Data.Id });
             }
 
-            return BadRequest();
+            return NotFound();
         }
 
         [Authorize]
