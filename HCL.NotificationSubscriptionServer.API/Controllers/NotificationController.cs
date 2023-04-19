@@ -24,6 +24,7 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
             var notification = await _notificationService.GetNotificationOData().Data
                 ?.Where(x => x.Id == id)
                 .Include(x => x.Relationship)
+                .AsNoTracking()
                 .SingleOrDefaultAsync();
             if (notification == null)
             {
@@ -46,6 +47,7 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
         {
             var notification = await _notificationService.GetNotificationOData().Data
                 ?.Where(x => x.Id == id)
+                .AsNoTracking()
                 .SingleOrDefaultAsync();
             if (notification == null)
             {

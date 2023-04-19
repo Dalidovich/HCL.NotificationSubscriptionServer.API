@@ -38,6 +38,7 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
         {
             var relation=await _relationshipService.GetRelationshipOData().Data
                 ?.Where(x => x.Id == id)
+                .AsNoTracking()
                 .SingleOrDefaultAsync();
             if (relation == null)
             {
@@ -60,6 +61,7 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
         {
             var relation = await _relationshipService.GetRelationshipOData().Data
                 ?.Where(x => x.Id == id)
+                .AsNoTracking()
                 .SingleOrDefaultAsync();
             if (relation == null)
             {
