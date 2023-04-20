@@ -8,7 +8,9 @@ using HCL.NotificationSubscriptionServer.API.Domain.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.OData;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OData.ModelBuilder;
+using System.Text;
 
 namespace HCL.NotificationSubscriptionServer.API
 {
@@ -48,8 +50,32 @@ namespace HCL.NotificationSubscriptionServer.API
 
         public static void AddAuthProperty(this WebApplicationBuilder webApplicationBuilder)
         {
-            webApplicationBuilder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => webApplicationBuilder.Configuration.Bind("JwtSettings", options));
+            var secretKey = webApplicationBuilder.Configuration.GetSection("JWTSettings:SecretKey").Value;
+            var issuer = webApplicationBuilder.Configuration.GetSection("JWTSettings:Issuer").Value;
+            var audience = webApplicationBuilder.Configuration.GetSection("JWTSettings:Audience").Value;
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+
+            webApplicationBuilder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+
+                options.RequireHttpsMetadata = true;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = issuer,
+                    ValidateAudience = true,
+                    ValidAudience = audience,
+                    ValidateLifetime = true,
+                    IssuerSigningKey = signingKey,
+                    ValidateIssuerSigningKey = true,
+                };
+            });
         }
 
         public static void AddHostedServices(this WebApplicationBuilder webApplicationBuilder)
