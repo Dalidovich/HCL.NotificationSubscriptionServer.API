@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace HCL.NotificationSubscriptionServer.API.DAL
 {
-    public partial class AppDBContext : DbContext
+    public class AppDBContext : DbContext
     {
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Relationship> Relationships { get; set; }
@@ -34,10 +34,6 @@ namespace HCL.NotificationSubscriptionServer.API.DAL
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
-            OnModelCreatingPartial(modelBuilder);
         }
-
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
