@@ -30,7 +30,7 @@ services:
       - KafkaSettings__User=kafka
       - KafkaSettings__Password=kafka
     ports:
-      - "5473:5472"
+      - "5473:5432"
     restart: always
     volumes:
       - app_db_hcl_notification_relation:/var/lib/postgresql/data_notification
