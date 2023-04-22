@@ -22,8 +22,6 @@ namespace HCL.NotificationSubscriptionServer.API.BLL.Services
                 BootstrapServers = _bootstrapServers,
                 GroupId = "notificationsCreator",
                 AutoOffsetReset = AutoOffsetReset.Earliest,
-                SaslUsername = kafkaSettings.User,
-                SaslPassword = kafkaSettings.Password,
                 EnableAutoCommit = true,
             };
 
@@ -37,7 +35,7 @@ namespace HCL.NotificationSubscriptionServer.API.BLL.Services
 
         public async Task Listen()
         {
-            var cr = _consumer.Consume(TimeSpan.FromSeconds(5));
+            var cr = _consumer.Consume(TimeSpan.FromSeconds(1));
             if (cr != null)
             {
                 await _notificationService.CreateNotification(cr.Message.Key, new Guid(cr.Message.Value));
