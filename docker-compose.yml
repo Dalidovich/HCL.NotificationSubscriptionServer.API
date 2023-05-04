@@ -1,8 +1,8 @@
 version: '3.4'
 
 networks:
-  dev:
-    driver: bridge
+  hclarticleserviceapi_dev:
+    external: true
 
 services:
   hcl.notificationsubscriptionserver.api:
@@ -15,8 +15,10 @@ services:
       dockerfile: HCL.NotificationSubscriptionServer.API/Dockerfile
     environment:
       - ConnectionStrings__NpgConnectionString=User Id=postgres; Password=pg; Server=app_db_hcl_notification_relation; Port=5432; Database=HCL_NotificationServer; IntegratedSecurity=true; Pooling=true;
+      - KafkaSettings__BootstrapServers=kafka:9092
+      - KafkaSettings__Topic=new_article
     networks:
-      - dev
+      - hclarticleserviceapi_dev
 
   app_db_hcl_notification_relation: 
     image: postgres:latest
@@ -25,17 +27,13 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=pg
       - POSTGRES_DB=HCL_NotificationServer
-      - KafkaSettings__BootstrapServers=localhost:9093
-      - KafkaSettings__Topic=new_article
-      - KafkaSettings__User=kafka
-      - KafkaSettings__Password=kafka
     ports:
-      - "5473:5472"
+      - "5473:5432"
     restart: always
     volumes:
       - app_db_hcl_notification_relation:/var/lib/postgresql/data_notification
     networks:
-      - dev
+      - hclarticleserviceapi_dev
             
 volumes:
   app_db_hcl_notification_relation:
