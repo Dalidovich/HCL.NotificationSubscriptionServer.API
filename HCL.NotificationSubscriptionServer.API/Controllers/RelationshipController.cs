@@ -19,7 +19,7 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
         }
 
         [Authorize]
-        [HttpPost("v1/Relationship")]
+        [HttpPost("v1/relationship")]
         public async Task<IActionResult> CreateRelationship([FromQuery] RelationshipDTO articleDTO)
         {
             var resourse = await _relationshipService.CreateRelationship(new Relationship(articleDTO));
@@ -33,7 +33,7 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
         }
 
         [Authorize]
-        [HttpDelete("v1/OwnRelationship")]
+        [HttpDelete("v1/relationship/account")]
         public async Task<IActionResult> DeleteRelationship([FromQuery] Guid ownId, [FromQuery] Guid id)
         {
             var relation=await _relationshipService.GetRelationshipOData().Data
@@ -56,7 +56,7 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpDelete("v1/Relationship")]
+        [HttpDelete("v1/relationship/admin")]
         public async Task<IActionResult> DeleteRelationship([FromQuery] Guid id)
         {
             var relation = await _relationshipService.GetRelationshipOData().Data

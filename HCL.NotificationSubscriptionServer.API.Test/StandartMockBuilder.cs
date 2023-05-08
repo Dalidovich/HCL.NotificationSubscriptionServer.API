@@ -102,7 +102,7 @@ namespace HCL.NotificationSubscriptionServer.API.Test
 
                     if (del != null)
                     {
-                        relationships.Remove(relation);
+                        relationships.Remove(del);
 
                         return true;
                     }
