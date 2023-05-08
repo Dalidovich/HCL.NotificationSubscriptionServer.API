@@ -23,7 +23,7 @@ namespace HCL.NotificationSubscriptionServer.API.BLL.Services
             return new StandartResponse<Relationship>()
             {
                 Data = createdRelationship,
-                StatusCode = StatusCode.NotificationCreate
+                StatusCode = StatusCode.SubscriptionCreate
             };
         }
 
@@ -34,7 +34,7 @@ namespace HCL.NotificationSubscriptionServer.API.BLL.Services
             return new StandartResponse<bool>()
             {
                 Data = await _relationshipRepositories.SaveAsync(),
-                StatusCode = StatusCode.NotificationDelete
+                StatusCode = StatusCode.SubscriptionDelete
             };
         }
 
@@ -53,7 +53,7 @@ namespace HCL.NotificationSubscriptionServer.API.BLL.Services
             return new StandartResponse<IQueryable<Relationship>>()
             {
                 Data = contents,
-                StatusCode = StatusCode.NotificationRead
+                StatusCode = StatusCode.SubscriptionRead
             };
         }
     }
