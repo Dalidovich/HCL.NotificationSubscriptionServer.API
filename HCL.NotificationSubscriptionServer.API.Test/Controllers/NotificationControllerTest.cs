@@ -4,14 +4,6 @@ using HCL.NotificationSubscriptionServer.API.Controllers;
 using HCL.NotificationSubscriptionServer.API.Domain.Entities;
 using HCL.NotificationSubscriptionServer.API.Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
-using MockQueryable.Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
@@ -27,10 +19,10 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
             {
                 new Relationship()
                 {
-                    Id=Guid.NewGuid(),
-                    AccountMasterId=Guid.NewGuid(),
-                    AccountSlaveId=accountId,
-                    Status=RelationshipStatus.Subscription
+                    Id = Guid.NewGuid(),
+                    AccountMasterId = Guid.NewGuid(),
+                    AccountSlaveId = accountId,
+                    Status = RelationshipStatus.Subscription
                 }
             };
 
@@ -39,10 +31,10 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
             {
                 new Notification()
                 {
-                    Id=notificationId,
-                    ArticleId=Guid.NewGuid().ToString(),
-                    Relationship=relationships.First(),
-                    RelationshipId=(Guid)relationships.First().Id
+                    Id = notificationId,
+                    ArticleId = Guid.NewGuid().ToString(),
+                    Relationship = relationships.First(),
+                    RelationshipId = (Guid)relationships.First().Id
                 }
             };
 
@@ -50,7 +42,7 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
             var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
 
             var relationServ = new RelationshipService(relationshipRep.Object);
-            var notifServ = new NotificationService(notificationRep.Object,relationServ);
+            var notifServ = new NotificationService(notificationRep.Object, relationServ);
             var controller = new NotificationController(notifServ);
 
             //Act
@@ -65,14 +57,15 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
         public async Task DeleteNotification_WhenExistNotificationIsNotMine_ReturnForbid()
         {
             //Arrange
+            var accountId = Guid.NewGuid();
             List<Relationship> relationships = new List<Relationship>
             {
                 new Relationship()
                 {
-                    Id=Guid.NewGuid(),
-                    AccountMasterId=Guid.NewGuid(),
-                    AccountSlaveId=Guid.NewGuid(),
-                    Status=RelationshipStatus.Subscription
+                    Id = Guid.NewGuid(),
+                    AccountMasterId = Guid.NewGuid(),
+                    AccountSlaveId = accountId,
+                    Status = RelationshipStatus.Subscription
                 }
             };
 
@@ -81,10 +74,10 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
             {
                 new Notification()
                 {
-                    Id=notificationId,
-                    ArticleId=Guid.NewGuid().ToString(),
-                    Relationship=relationships.First(),
-                    RelationshipId=(Guid)relationships.First().Id
+                    Id = notificationId,
+                    ArticleId = Guid.NewGuid().ToString(),
+                    Relationship = relationships.First(),
+                    RelationshipId = (Guid)relationships.First().Id
                 }
             };
 
@@ -107,25 +100,27 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
         public async Task DeleteNotification_WhenNotExistNotificationIsNotMine_ReturnNotFound()
         {
             //Arrange
+            var accountId = Guid.NewGuid();
             List<Relationship> relationships = new List<Relationship>
             {
                 new Relationship()
                 {
-                    Id=Guid.NewGuid(),
-                    AccountMasterId=Guid.NewGuid(),
-                    AccountSlaveId=Guid.NewGuid(),
-                    Status=RelationshipStatus.Subscription
+                    Id = Guid.NewGuid(),
+                    AccountMasterId = Guid.NewGuid(),
+                    AccountSlaveId = accountId,
+                    Status = RelationshipStatus.Subscription
                 }
             };
 
+            var notificationId = Guid.NewGuid();
             List<Notification> notifications = new List<Notification>
             {
                 new Notification()
                 {
-                    Id=Guid.NewGuid(),
-                    ArticleId=Guid.NewGuid().ToString(),
-                    Relationship=relationships.First(),
-                    RelationshipId=(Guid)relationships.First().Id
+                    Id = notificationId,
+                    ArticleId = Guid.NewGuid().ToString(),
+                    Relationship = relationships.First(),
+                    RelationshipId = (Guid)relationships.First().Id
                 }
             };
 
@@ -148,14 +143,15 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
         public async Task DeleteNotification_WhenExistNotification_ReturnNoContent()
         {
             //Arrange
+            var accountId = Guid.NewGuid();
             List<Relationship> relationships = new List<Relationship>
             {
                 new Relationship()
                 {
-                    Id=Guid.NewGuid(),
-                    AccountMasterId=Guid.NewGuid(),
-                    AccountSlaveId=Guid.NewGuid(),
-                    Status=RelationshipStatus.Subscription
+                    Id = Guid.NewGuid(),
+                    AccountMasterId = Guid.NewGuid(),
+                    AccountSlaveId = accountId,
+                    Status = RelationshipStatus.Subscription
                 }
             };
 
@@ -164,10 +160,10 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
             {
                 new Notification()
                 {
-                    Id=notificationId,
-                    ArticleId=Guid.NewGuid().ToString(),
-                    Relationship=relationships.First(),
-                    RelationshipId=(Guid)relationships.First().Id
+                    Id = notificationId,
+                    ArticleId = Guid.NewGuid().ToString(),
+                    Relationship = relationships.First(),
+                    RelationshipId = (Guid)relationships.First().Id
                 }
             };
 
@@ -190,25 +186,27 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
         public async Task DeleteNotification_WhenNotExistNotification_ReturnNotFound()
         {
             //Arrange
+            var accountId = Guid.NewGuid();
             List<Relationship> relationships = new List<Relationship>
             {
                 new Relationship()
                 {
-                    Id=Guid.NewGuid(),
-                    AccountMasterId=Guid.NewGuid(),
-                    AccountSlaveId=Guid.NewGuid(),
-                    Status=RelationshipStatus.Subscription
+                    Id = Guid.NewGuid(),
+                    AccountMasterId = Guid.NewGuid(),
+                    AccountSlaveId = accountId,
+                    Status = RelationshipStatus.Subscription
                 }
             };
 
+            var notificationId = Guid.NewGuid();
             List<Notification> notifications = new List<Notification>
             {
                 new Notification()
                 {
-                    Id=Guid.NewGuid(),
-                    ArticleId=Guid.NewGuid().ToString(),
-                    Relationship=relationships.First(),
-                    RelationshipId=(Guid)relationships.First().Id
+                    Id = notificationId,
+                    ArticleId = Guid.NewGuid().ToString(),
+                    Relationship = relationships.First(),
+                    RelationshipId = (Guid)relationships.First().Id
                 }
             };
 

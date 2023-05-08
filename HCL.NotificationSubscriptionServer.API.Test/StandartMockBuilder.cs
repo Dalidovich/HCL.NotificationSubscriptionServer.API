@@ -1,12 +1,8 @@
 ﻿using HCL.NotificationSubscriptionServer.API.BLL.Interfaces;
 using HCL.NotificationSubscriptionServer.API.DAL.Repositories.Interfaces;
 using HCL.NotificationSubscriptionServer.API.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 using MockQueryable.Moq;
 using Moq;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Net;
 
 namespace HCL.NotificationSubscriptionServer.API.Test
 {
