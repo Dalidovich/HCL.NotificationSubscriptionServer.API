@@ -18,7 +18,7 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
         }
 
         [Authorize]
-        [HttpDelete("v1/OwnRelationship")]
+        [HttpDelete("v1/relationship/account")]
         public async Task<IActionResult> DeleteNotification([FromQuery] Guid ownId, [FromQuery] Guid id)
         {
             var notification = await _notificationService.GetNotificationOData().Data
@@ -42,8 +42,8 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpDelete("v1/Relationship")]
-        public async Task<IActionResult> DeleteRelationship([FromQuery] Guid id)
+        [HttpDelete("v1/relationship/admin")]
+        public async Task<IActionResult> DeleteNotification([FromQuery] Guid id)
         {
             var notification = await _notificationService.GetNotificationOData().Data
                 ?.Where(x => x.Id == id)
