@@ -14,6 +14,7 @@ services:
       context: .
       dockerfile: HCL.NotificationSubscriptionServer.API/Dockerfile
     environment:
+      - ElasticConfiguration__Uri=http://elasticsearch:9200
       - ConnectionStrings__NpgConnectionString=User Id=postgres; Password=pg; Server=app_db_hcl_notification_relation; Port=5432; Database=HCL_NotificationServer; IntegratedSecurity=true; Pooling=true;
       - KafkaSettings__BootstrapServers=kafka:9092
       - KafkaSettings__Topic=new_article
