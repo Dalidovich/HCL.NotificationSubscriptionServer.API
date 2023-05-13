@@ -76,7 +76,7 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Services
         }
 
         [Fact]
-        public async Task CreateNotification_WithNotExistRightRelation_Retutn_()
+        public async Task CreateNotification_WithNotExistRightRelation_RetutnBooleanTrue()
         {
             //Arrange
             List<Relationship> relationships = new List<Relationship>();
