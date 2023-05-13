@@ -19,8 +19,8 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
 
             var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
 
-            var relationServ = new RelationshipService(relationshipRep.Object);
-            var controller = new RelationshipController(relationServ);
+            var relationServ = new RelationshipService(relationshipRep.Object, StandartMockBuilder.mockLoggerRelatServ);
+            var controller = new RelationshipController(relationServ, StandartMockBuilder.mockLoggerRelationController);
 
             var relationshipDto = new RelationshipDTO()
             {
@@ -56,8 +56,8 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
 
             var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
 
-            var relationServ = new RelationshipService(relationshipRep.Object);
-            var controller = new RelationshipController(relationServ);
+            var relationServ = new RelationshipService(relationshipRep.Object, StandartMockBuilder.mockLoggerRelatServ);
+            var controller = new RelationshipController(relationServ, StandartMockBuilder.mockLoggerRelationController);
 
             //Act
             var noContentResult = await controller.DeleteRelationship(accountId, relationshipId) as NoContentResult;
@@ -85,8 +85,8 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
 
             var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
 
-            var relationServ = new RelationshipService(relationshipRep.Object);
-            var controller = new RelationshipController(relationServ);
+            var relationServ = new RelationshipService(relationshipRep.Object, StandartMockBuilder.mockLoggerRelatServ);
+            var controller = new RelationshipController(relationServ, StandartMockBuilder.mockLoggerRelationController);
 
             //Act
             var forbidResult = await controller.DeleteRelationship(Guid.NewGuid(), relationshipId) as ForbidResult;
@@ -113,8 +113,8 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
 
             var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
 
-            var relationServ = new RelationshipService(relationshipRep.Object);
-            var controller = new RelationshipController(relationServ);
+            var relationServ = new RelationshipService(relationshipRep.Object, StandartMockBuilder.mockLoggerRelatServ);
+            var controller = new RelationshipController(relationServ, StandartMockBuilder.mockLoggerRelationController);
 
             //Act
             var notFoundResult = await controller.DeleteRelationship(Guid.NewGuid(), Guid.NewGuid()) as NotFoundResult;
@@ -142,8 +142,8 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
 
             var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
 
-            var relationServ = new RelationshipService(relationshipRep.Object);
-            var controller = new RelationshipController(relationServ);
+            var relationServ = new RelationshipService(relationshipRep.Object, StandartMockBuilder.mockLoggerRelatServ);
+            var controller = new RelationshipController(relationServ, StandartMockBuilder.mockLoggerRelationController);
 
             //Act
             var noContentResult = await controller.DeleteRelationship(relationshipId) as NoContentResult;
@@ -170,8 +170,8 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
 
             var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
 
-            var relationServ = new RelationshipService(relationshipRep.Object);
-            var controller = new RelationshipController(relationServ);
+            var relationServ = new RelationshipService(relationshipRep.Object, StandartMockBuilder.mockLoggerRelatServ);
+            var controller = new RelationshipController(relationServ, StandartMockBuilder.mockLoggerRelationController);
 
             //Act
             var notFoundResult = await controller.DeleteRelationship(Guid.NewGuid()) as NotFoundResult;

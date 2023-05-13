@@ -1,6 +1,9 @@
 ﻿using HCL.NotificationSubscriptionServer.API.BLL.Interfaces;
+using HCL.NotificationSubscriptionServer.API.BLL.Services;
+using HCL.NotificationSubscriptionServer.API.Controllers;
 using HCL.NotificationSubscriptionServer.API.DAL.Repositories.Interfaces;
 using HCL.NotificationSubscriptionServer.API.Domain.Entities;
+using Microsoft.Extensions.Logging;
 using MockQueryable.Moq;
 using Moq;
 
@@ -21,6 +24,11 @@ namespace HCL.NotificationSubscriptionServer.API.Test
 
             return notific;
         }
+
+        public static readonly ILogger<NotificationController> mockLoggerNotificationController = new Mock<ILogger<NotificationController>>().Object;
+        public static readonly ILogger<NotificationService> mockLoggerNotifServ = new Mock<ILogger<NotificationService>>().Object;
+        public static readonly ILogger<RelationshipController> mockLoggerRelationController = new Mock<ILogger<RelationshipController>>().Object;
+        public static readonly ILogger<RelationshipService> mockLoggerRelatServ = new Mock<ILogger<RelationshipService>>().Object;
 
         private static Relationship _addRelationship(Relationship relationship, List<Relationship> relationships)
         {

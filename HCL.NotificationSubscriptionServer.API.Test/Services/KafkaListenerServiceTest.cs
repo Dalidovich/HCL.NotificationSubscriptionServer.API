@@ -29,8 +29,8 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Services
             var notificationRep = StandartMockBuilder.CreateNotificationRepositoryMock(notifications);
             var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
 
-            var relationServ = new RelationshipService(relationshipRep.Object);
-            var notifServ = new NotificationService(notificationRep.Object, relationServ);
+            var relationServ = new RelationshipService(relationshipRep.Object, StandartMockBuilder.mockLoggerRelatServ);
+            var notifServ = new NotificationService(notificationRep.Object, relationServ, StandartMockBuilder.mockLoggerNotifServ);
 
             var kafkaService = StandartMockBuilder.CreateKafkaConsumerServiceMock(notifServ, masterAccountId);
 
@@ -62,8 +62,8 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Services
             var notificationRep = StandartMockBuilder.CreateNotificationRepositoryMock(notifications);
             var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
 
-            var relationServ = new RelationshipService(relationshipRep.Object);
-            var notifServ = new NotificationService(notificationRep.Object, relationServ);
+            var relationServ = new RelationshipService(relationshipRep.Object, StandartMockBuilder.mockLoggerRelatServ);
+            var notifServ = new NotificationService(notificationRep.Object, relationServ, StandartMockBuilder.mockLoggerNotifServ);
 
             var kafkaService = StandartMockBuilder.CreateKafkaConsumerServiceMock(notifServ, masterAccountId);
 
@@ -84,8 +84,8 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Services
             var notificationRep = StandartMockBuilder.CreateNotificationRepositoryMock(notifications);
             var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
 
-            var relationServ = new RelationshipService(relationshipRep.Object);
-            var notifServ = new NotificationService(notificationRep.Object, relationServ);
+            var relationServ = new RelationshipService(relationshipRep.Object, StandartMockBuilder.mockLoggerRelatServ);
+            var notifServ = new NotificationService(notificationRep.Object, relationServ, StandartMockBuilder.mockLoggerNotifServ);
 
             var kafkaService = StandartMockBuilder.CreateKafkaConsumerServiceMock(notifServ, Guid.NewGuid());
 

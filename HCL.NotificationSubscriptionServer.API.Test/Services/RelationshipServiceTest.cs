@@ -16,7 +16,7 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Services
 
             var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
 
-            var relationServ = new RelationshipService(relationshipRep.Object);
+            var relationServ = new RelationshipService(relationshipRep.Object, StandartMockBuilder.mockLoggerRelatServ);
 
             var relationship = new Relationship()
             {
@@ -53,7 +53,7 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Services
             };
             var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
 
-            var relationServ = new RelationshipService(relationshipRep.Object);
+            var relationServ = new RelationshipService(relationshipRep.Object, StandartMockBuilder.mockLoggerRelatServ);
 
             //Act
             var result = await relationServ.DeleteRelationship(relationId);
@@ -81,7 +81,7 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Services
             };
             var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
 
-            var relationServ = new RelationshipService(relationshipRep.Object);
+            var relationServ = new RelationshipService(relationshipRep.Object, StandartMockBuilder.mockLoggerRelatServ);
 
             //Act
             var result = await relationServ.DeleteRelationship(Guid.NewGuid());
@@ -107,7 +107,7 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Services
             };
             var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
 
-            var relationServ = new RelationshipService(relationshipRep.Object);
+            var relationServ = new RelationshipService(relationshipRep.Object, StandartMockBuilder.mockLoggerRelatServ);
 
             //Act
             var result = relationServ.GetRelationshipOData();
@@ -126,7 +126,7 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Services
 
             var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
 
-            var relationServ = new RelationshipService(relationshipRep.Object);
+            var relationServ = new RelationshipService(relationshipRep.Object, StandartMockBuilder.mockLoggerRelatServ);
 
             //Act
             var result = relationServ.GetRelationshipOData();

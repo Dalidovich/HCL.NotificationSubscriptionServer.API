@@ -41,9 +41,9 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
             var notificationRep = StandartMockBuilder.CreateNotificationRepositoryMock(notifications);
             var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
 
-            var relationServ = new RelationshipService(relationshipRep.Object);
-            var notifServ = new NotificationService(notificationRep.Object, relationServ);
-            var controller = new NotificationController(notifServ);
+            var relationServ = new RelationshipService(relationshipRep.Object, StandartMockBuilder.mockLoggerRelatServ);
+            var notifServ = new NotificationService(notificationRep.Object, relationServ, StandartMockBuilder.mockLoggerNotifServ);
+            var controller = new NotificationController(notifServ, StandartMockBuilder.mockLoggerNotificationController);
 
             //Act
             var noContentResult = await controller.DeleteNotification(accountId, notificationId) as NoContentResult;
@@ -84,9 +84,9 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
             var notificationRep = StandartMockBuilder.CreateNotificationRepositoryMock(notifications);
             var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
 
-            var relationServ = new RelationshipService(relationshipRep.Object);
-            var notifServ = new NotificationService(notificationRep.Object, relationServ);
-            var controller = new NotificationController(notifServ);
+            var relationServ = new RelationshipService(relationshipRep.Object, StandartMockBuilder.mockLoggerRelatServ);
+            var notifServ = new NotificationService(notificationRep.Object, relationServ, StandartMockBuilder.mockLoggerNotifServ);
+            var controller = new NotificationController(notifServ, StandartMockBuilder.mockLoggerNotificationController);
 
             //Act
             var forbidResult = await controller.DeleteNotification(Guid.NewGuid(), notificationId) as ForbidResult;
@@ -127,9 +127,9 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
             var notificationRep = StandartMockBuilder.CreateNotificationRepositoryMock(notifications);
             var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
 
-            var relationServ = new RelationshipService(relationshipRep.Object);
-            var notifServ = new NotificationService(notificationRep.Object, relationServ);
-            var controller = new NotificationController(notifServ);
+            var relationServ = new RelationshipService(relationshipRep.Object, StandartMockBuilder.mockLoggerRelatServ);
+            var notifServ = new NotificationService(notificationRep.Object, relationServ, StandartMockBuilder.mockLoggerNotifServ);
+            var controller = new NotificationController(notifServ, StandartMockBuilder.mockLoggerNotificationController);
 
             //Act
             var notFoundResult = await controller.DeleteNotification(Guid.NewGuid(), Guid.NewGuid()) as NotFoundResult;
@@ -170,9 +170,9 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
             var notificationRep = StandartMockBuilder.CreateNotificationRepositoryMock(notifications);
             var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
 
-            var relationServ = new RelationshipService(relationshipRep.Object);
-            var notifServ = new NotificationService(notificationRep.Object, relationServ);
-            var controller = new NotificationController(notifServ);
+            var relationServ = new RelationshipService(relationshipRep.Object, StandartMockBuilder.mockLoggerRelatServ);
+            var notifServ = new NotificationService(notificationRep.Object, relationServ, StandartMockBuilder.mockLoggerNotifServ);
+            var controller = new NotificationController(notifServ, StandartMockBuilder.mockLoggerNotificationController);
 
             //Act
             var noContentResult = await controller.DeleteNotification(notificationId) as NoContentResult;
@@ -213,9 +213,9 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
             var notificationRep = StandartMockBuilder.CreateNotificationRepositoryMock(notifications);
             var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
 
-            var relationServ = new RelationshipService(relationshipRep.Object);
-            var notifServ = new NotificationService(notificationRep.Object, relationServ);
-            var controller = new NotificationController(notifServ);
+            var relationServ = new RelationshipService(relationshipRep.Object, StandartMockBuilder.mockLoggerRelatServ);
+            var notifServ = new NotificationService(notificationRep.Object, relationServ, StandartMockBuilder.mockLoggerNotifServ);
+            var controller = new NotificationController(notifServ, StandartMockBuilder.mockLoggerNotificationController);
 
             //Act
             var notFoundResult = await controller.DeleteNotification(Guid.NewGuid()) as NotFoundResult;
