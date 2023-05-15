@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OData.ModelBuilder;
+using Serilog;
 using System.Text;
 
 namespace HCL.NotificationSubscriptionServer.API
@@ -40,6 +41,12 @@ namespace HCL.NotificationSubscriptionServer.API
                 opt.Count().Filter().Expand().Select().OrderBy().SetMaxTop(5000);
                 opt.TimeZone = TimeZoneInfo.Utc;
             });
+        }
+
+        public static void AddElasticserchProperty(this WebApplicationBuilder webApplicationBuilder)
+        {
+            ElasticsearchHelper.ConfigureLogging();
+            webApplicationBuilder.Host.UseSerilog();
         }
 
         public static void AddKafkaProperty(this WebApplicationBuilder webApplicationBuilder)

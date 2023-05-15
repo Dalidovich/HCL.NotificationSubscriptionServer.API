@@ -17,6 +17,7 @@ namespace HCL.NotificationSubscriptionServer.API
             builder.AddODataProperty();
             builder.AddHostedServices();
             builder.AddAuthProperty();
+            builder.AddElasticserchProperty();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();

@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HCL.NotificationSubscriptio
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{AA1E126D-0EC3-44FD-9CD3-3E048EFC73B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HCL.NotificationSubscriptionServer.API.Test", "HCL.NotificationSubscriptionServer.API.Test\HCL.NotificationSubscriptionServer.API.Test.csproj", "{0766DAD1-F77E-42C0-9644-53B20F296CCD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{AA1E126D-0EC3-44FD-9CD3-3E048EFC73B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA1E126D-0EC3-44FD-9CD3-3E048EFC73B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA1E126D-0EC3-44FD-9CD3-3E048EFC73B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0766DAD1-F77E-42C0-9644-53B20F296CCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0766DAD1-F77E-42C0-9644-53B20F296CCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0766DAD1-F77E-42C0-9644-53B20F296CCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0766DAD1-F77E-42C0-9644-53B20F296CCD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
