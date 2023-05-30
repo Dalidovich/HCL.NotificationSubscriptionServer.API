@@ -11,10 +11,10 @@ namespace HCL.NotificationSubscriptionServer.API.BLL.Services
 {
     public class RelationshipService : IRelationshipService
     {
-        private readonly IRelationshipRepositories _relationshipRepositories;
+        private readonly IRelationshipRepository _relationshipRepositories;
         private readonly ILogger<RelationshipService> _logger;
 
-        public RelationshipService(IRelationshipRepositories relationshipRepositories, ILogger<RelationshipService> logger)
+        public RelationshipService(IRelationshipRepository relationshipRepositories, ILogger<RelationshipService> logger)
         {
             _relationshipRepositories = relationshipRepositories;
             _logger = logger;

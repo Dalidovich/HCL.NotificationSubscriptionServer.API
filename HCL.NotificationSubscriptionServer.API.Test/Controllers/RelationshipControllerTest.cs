@@ -117,10 +117,10 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
             var controller = new RelationshipController(relationServ, StandartMockBuilder.mockLoggerRelationController);
 
             //Act
-            var notFoundResult = await controller.DeleteRelationship(Guid.NewGuid(), Guid.NewGuid()) as NotFoundResult;
+            var forbidResult = await controller.DeleteRelationship(Guid.NewGuid(), Guid.NewGuid()) as ForbidResult;
 
             //Assert
-            notFoundResult.Should().NotBeNull();
+            forbidResult.Should().NotBeNull();
             relationships.Should().NotBeEmpty();
         }
 

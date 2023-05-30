@@ -132,10 +132,10 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
             var controller = new NotificationController(notifServ, StandartMockBuilder.mockLoggerNotificationController);
 
             //Act
-            var notFoundResult = await controller.DeleteNotification(Guid.NewGuid(), Guid.NewGuid()) as NotFoundResult;
+            var forbidResult = await controller.DeleteNotification(Guid.NewGuid(), Guid.NewGuid()) as ForbidResult;
 
             //Assert
-            notFoundResult.Should().NotBeNull();
+            forbidResult.Should().NotBeNull();
             notifications.Should().NotBeEmpty();
         }
 

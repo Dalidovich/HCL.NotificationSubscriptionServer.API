@@ -11,11 +11,11 @@ namespace HCL.NotificationSubscriptionServer.API.BLL.Services
 {
     public class NotificationService : INotificationService
     {
-        private readonly INotificationRepositories _notificationRepositories;
+        private readonly INotificationRepository _notificationRepositories;
         private readonly IRelationshipService _relationshipService;
         private readonly ILogger<NotificationService> _logger;
 
-        public NotificationService(INotificationRepositories notificationRepositories, IRelationshipService relationshipService
+        public NotificationService(INotificationRepository notificationRepositories, IRelationshipService relationshipService
             , ILogger<NotificationService> logger)
         {
             _notificationRepositories = notificationRepositories;
