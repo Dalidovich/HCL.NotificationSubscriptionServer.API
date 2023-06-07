@@ -2,7 +2,7 @@
 
 namespace HCL.NotificationSubscriptionServer.API.DAL.Repositories.Interfaces
 {
-    public interface IRelationshipRepositories : BaseRepositories<Relationship>
+    public interface IRelationshipRepository : IBaseRepository<Relationship>
     {
     }
 }

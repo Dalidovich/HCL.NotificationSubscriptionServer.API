@@ -36,7 +36,7 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
                 .Build();
                 _logger.LogInformation(JsonSerializer.Serialize(log));
 
-                return Created("", new { articleId = resourse.Data.Id });
+                return Created("", new { relationshipId = resourse.Data.Id });
             }
 
             return NotFound();
@@ -46,18 +46,20 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
         [HttpDelete("v1/relationship/account")]
         public async Task<IActionResult> DeleteRelationship([FromQuery] Guid ownId, [FromQuery] Guid id)
         {
-            var relation=await _relationshipService.GetRelationshipOData().Data
-                ?.Where(x => x.Id == id)
-                .AsNoTracking()
-                .SingleOrDefaultAsync();
-            if (relation == null)
+            var response = _relationshipService.GetRelationshipOData();
+            Relationship relation;
+            if (response.Data == null)
             {
 
                 return NotFound();
             }
-            else if (relation.AccountSlaveId == ownId)
+            relation = await response.Data
+                ?.Where(x => x.Id == id)
+                .AsNoTracking()
+                .SingleOrDefaultAsync();
+            if (relation != null && relation.AccountSlaveId == ownId)
             {
-                var resourse = await _relationshipService.DeleteRelationship(id);
+                var resourse = await _relationshipService.DeleteRelationship((Guid)relation.Id);
                 var log = new LogDTOBuidlder("DeleteRelationship(ownId,id)")
                 .BuildMessage("authenticated account delete own relationship")
                 .BuildSuccessState(resourse.Data)
@@ -75,24 +77,30 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
         [HttpDelete("v1/relationship/admin")]
         public async Task<IActionResult> DeleteRelationship([FromQuery] Guid id)
         {
-            var relation = await _relationshipService.GetRelationshipOData().Data
-                ?.Where(x => x.Id == id)
-                .AsNoTracking()
-                .SingleOrDefaultAsync();
-            if (relation == null)
+            var response = _relationshipService.GetRelationshipOData();
+            if (response.Data == null)
             {
 
                 return NotFound();
             }
-            var resourse = await _relationshipService.DeleteRelationship(id);
-            var log = new LogDTOBuidlder("DeleteRelationship(id)")
-                .BuildMessage("admin account delete relationship")
-                .BuildSuccessState(resourse.Data)
-                .BuildStatusCode(204)
-                .Build();
-            _logger.LogInformation(JsonSerializer.Serialize(log));
+            var relation = await response.Data
+                ?.Where(x => x.Id == id)
+                .AsNoTracking()
+                .SingleOrDefaultAsync();
+            if (relation != null)
+            {
+                var resourse = await _relationshipService.DeleteRelationship(id);
+                var log = new LogDTOBuidlder("DeleteRelationship(id)")
+                    .BuildMessage("admin account delete relationship")
+                    .BuildSuccessState(resourse.Data)
+                    .BuildStatusCode(204)
+                    .Build();
+                _logger.LogInformation(JsonSerializer.Serialize(log));
 
-            return NoContent();
+                return NoContent();
+            }
+
+            return NotFound();
         }
     }
 }

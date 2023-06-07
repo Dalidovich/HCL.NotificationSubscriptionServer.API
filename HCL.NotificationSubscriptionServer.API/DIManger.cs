@@ -19,8 +19,8 @@ namespace HCL.NotificationSubscriptionServer.API
     {
         public static void AddRepositores(this WebApplicationBuilder webApplicationBuilder)
         {
-            webApplicationBuilder.Services.AddScoped<INotificationRepositories, NotificationRepositories>();
-            webApplicationBuilder.Services.AddScoped<IRelationshipRepositories, RelationshipsRepositories>();
+            webApplicationBuilder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+            webApplicationBuilder.Services.AddScoped<IRelationshipRepository, RelationshipsRepository>();
         }
 
         public static void AddServices(this WebApplicationBuilder webApplicationBuilder)

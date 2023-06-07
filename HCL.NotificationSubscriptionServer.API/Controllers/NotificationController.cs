@@ -22,22 +22,23 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
         }
 
         [Authorize]
-        [HttpDelete("v1/relationship/account")]
+        [HttpDelete("v1/notification/account")]
         public async Task<IActionResult> DeleteNotification([FromQuery] Guid ownId, [FromQuery] Guid id)
         {
-            var notification = await _notificationService.GetNotificationOData().Data
-                ?.Where(x => x.Id == id)
-                .Include(x => x.Relationship)
-                .AsNoTracking()
-                .SingleOrDefaultAsync();
-            if (notification == null)
+            var response = _notificationService.GetNotificationOData();
+            if (response.Data == null)
             {
 
                 return NotFound();
             }
-            else if (notification.Relationship.AccountSlaveId == ownId)
+            var notification = await response.Data
+                ?.Where(x => x.Id == id)
+                .Include(x => x.Relationship)
+                .AsNoTracking()
+                .SingleOrDefaultAsync();
+            if (notification != null && notification.Relationship.AccountSlaveId == ownId)
             {
-                var resourse = await _notificationService.DeleteNotification(id);
+                var resourse = await _notificationService.DeleteNotification((Guid)notification.Id);
                 var log = new LogDTOBuidlder("DeleteNotification(ownId,id)")
                 .BuildMessage("authenticated account delete own notification")
                 .BuildSuccessState(resourse.Data)
@@ -52,27 +53,33 @@ namespace HCL.NotificationSubscriptionServer.API.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpDelete("v1/relationship/admin")]
+        [HttpDelete("v1/notification/admin")]
         public async Task<IActionResult> DeleteNotification([FromQuery] Guid id)
         {
-            var notification = await _notificationService.GetNotificationOData().Data
-                ?.Where(x => x.Id == id)
-                .AsNoTracking()
-                .SingleOrDefaultAsync();
-            if (notification == null)
+            var response = _notificationService.GetNotificationOData();
+            if (response.Data == null)
             {
 
                 return NotFound();
             }
-            var resourse = await _notificationService.DeleteNotification(id);
-            var log = new LogDTOBuidlder("DeleteNotification(id)")
-                .BuildMessage("admin account delete notification")
-                .BuildSuccessState(resourse.Data)
-                .BuildStatusCode(204)
-                .Build();
-            _logger.LogInformation(JsonSerializer.Serialize(log));
+            var notification = await response.Data
+                ?.Where(x => x.Id == id)
+                .AsNoTracking()
+                .SingleOrDefaultAsync();
+            if (notification != null)
+            {
+                var resourse = await _notificationService.DeleteNotification((Guid)notification.Id);
+                var log = new LogDTOBuidlder("DeleteNotification(id)")
+                    .BuildMessage("admin account delete notification")
+                    .BuildSuccessState(resourse.Data)
+                    .BuildStatusCode(204)
+                    .Build();
+                _logger.LogInformation(JsonSerializer.Serialize(log));
 
-            return NoContent();
+                return NoContent();
+            }
+
+            return NotFound();
         }
     }
 }

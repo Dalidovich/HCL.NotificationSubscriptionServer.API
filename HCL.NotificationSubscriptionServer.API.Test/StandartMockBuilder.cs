@@ -44,9 +44,9 @@ namespace HCL.NotificationSubscriptionServer.API.Test
             return relation;
         }
 
-        public static Mock<INotificationRepositories> CreateNotificationRepositoryMock(List<Notification> notifications)
+        public static Mock<INotificationRepository> CreateNotificationRepositoryMock(List<Notification> notifications)
         {
-            var repo = new Mock<INotificationRepositories>();
+            var repo = new Mock<INotificationRepository>();
             var collectionQuerybleMock = notifications.BuildMock();
             repo
                 .Setup(r => r.AddAsync(It.IsAny<Notification>()))
@@ -92,9 +92,9 @@ namespace HCL.NotificationSubscriptionServer.API.Test
             return repo;
         }
 
-        public static Mock<IRelationshipRepositories> CreateRelationshipRepositoryMock(List<Relationship> relationships)
+        public static Mock<IRelationshipRepository> CreateRelationshipRepositoryMock(List<Relationship> relationships)
         {
-            var repo = new Mock<IRelationshipRepositories>();
+            var repo = new Mock<IRelationshipRepository>();
             var collectionQuerybleMock = relationships.BuildMock();
             repo.Setup(r => r.AddAsync(It.IsAny<Relationship>()))
                 .ReturnsAsync((Relationship relation) =>
