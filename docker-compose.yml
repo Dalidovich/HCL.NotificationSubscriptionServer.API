@@ -1,0 +1,40 @@
+version: '3.4'
+
+networks:
+  hclarticleserviceapi_dev:
+    external: true
+
+services:
+  hcl.notificationsubscriptionserver.api:
+    image: ${DOCKER_REGISTRY-}hclnotificationsubscriptionserverapi
+    depends_on: 
+      - app_db_hcl_notification_relation
+    container_name: HCL.NotificationServer
+    build:
+      context: .
+      dockerfile: HCL.NotificationSubscriptionServer.API/Dockerfile
+    environment:
+      - ElasticConfiguration__Uri=http://elasticsearch:9200
+      - ConnectionStrings__NpgConnectionString=User Id=postgres; Password=pg; Server=app_db_hcl_notification_relation; Port=5432; Database=HCL_NotificationServer; IntegratedSecurity=true; Pooling=true;
+      - KafkaSettings__BootstrapServers=kafka:9092
+      - KafkaSettings__Topic=new_article
+    networks:
+      - hclarticleserviceapi_dev
+
+  app_db_hcl_notification_relation: 
+    image: postgres:latest
+    container_name: app_db_hcl_notification_relation
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pg
+      - POSTGRES_DB=HCL_NotificationServer
+    ports:
+      - "5473:5432"
+    restart: always
+    volumes:
+      - app_db_hcl_notification_relation:/var/lib/postgresql/data_notification
+    networks:
+      - hclarticleserviceapi_dev
+            
+volumes:
+  app_db_hcl_notification_relation:
