@@ -1,32 +1,53 @@
-﻿using FluentAssertions;
+﻿using DotNet.Testcontainers.Containers;
+using FluentAssertions;
 using HCL.NotificationSubscriptionServer.API.BLL.Services;
 using HCL.NotificationSubscriptionServer.API.Controllers;
+using HCL.NotificationSubscriptionServer.API.DAL;
+using HCL.NotificationSubscriptionServer.API.DAL.Repositories;
 using HCL.NotificationSubscriptionServer.API.Domain.DTO;
 using HCL.NotificationSubscriptionServer.API.Domain.Entities;
 using HCL.NotificationSubscriptionServer.API.Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
+namespace HCL.NotificationSubscriptionServer.API.Test.IntegrationTest.Controllers
 {
-    public class RelationshipControllerTest
+    public class RelationshipControllerIntegrationTest : IAsyncLifetime
     {
+        private IContainer pgContainer = TestContainerBuilder.CreatePostgreSQLContainer();
+        private WebApplicationFactory<Program> webHost;
+        private RelationshipController controller;
+
+        public async Task InitializeAsync()
+        {
+            await pgContainer.StartAsync();
+            webHost = CustomTestHostBuilder.Build(TestContainerBuilder.npgsqlUser, TestContainerBuilder.npgsqlPassword
+                , "localhost", pgContainer.GetMappedPublicPort(5432), TestContainerBuilder.npgsqlDB);
+
+            var scope = webHost.Services.CreateScope();
+            var appDBContext = scope.ServiceProvider.GetRequiredService<AppDBContext>();
+            var relationshipRepository = new RelationshipsRepository(appDBContext);
+
+            var relationService = new RelationshipService(relationshipRepository, StandartMockBuilder.mockLoggerRelatServ);
+            controller = new RelationshipController(relationService, StandartMockBuilder.mockLoggerRelationController);
+        }
+
+        public async Task DisposeAsync()
+        {
+            await pgContainer.StopAsync();
+        }
+
         [Fact]
         public async Task CreateRelationship_WithRightData_ReturnNewRelation()
         {
             //Arrange
-            List<Relationship> relationships = new List<Relationship>();
-
-            var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
-
-            var relationServ = new RelationshipService(relationshipRep.Object, StandartMockBuilder.mockLoggerRelatServ);
-            var controller = new RelationshipController(relationServ, StandartMockBuilder.mockLoggerRelationController);
-
             var relationshipDto = new RelationshipDTO()
             {
                 AccountMasterId = Guid.NewGuid(),
-                AccountSlaveId= Guid.NewGuid(),
-                Status=RelationshipStatus.Subscription
+                AccountSlaveId = Guid.NewGuid(),
+                Status = RelationshipStatus.Subscription
             };
 
             //Act
@@ -34,7 +55,6 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
 
             //Assert
             result.Should().NotBeNull();
-            relationships.Should().NotBeEmpty();
         }
 
         [Fact]
@@ -43,7 +63,7 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
             //Arrange
             var accountId = Guid.NewGuid();
             var relationshipId = Guid.NewGuid();
-            List<Relationship> relationships = new List<Relationship>
+            var relationships = new List<Relationship>()
             {
                 new Relationship()
                 {
@@ -54,17 +74,13 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
                 }
             };
 
-            var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
-
-            var relationServ = new RelationshipService(relationshipRep.Object, StandartMockBuilder.mockLoggerRelatServ);
-            var controller = new RelationshipController(relationServ, StandartMockBuilder.mockLoggerRelationController);
+            await TestDBFiller.AddRelationshipInDBNotTracked(webHost, relationships);
 
             //Act
             var noContentResult = await controller.DeleteRelationship(accountId, relationshipId) as NoContentResult;
 
             //Assert
             noContentResult.Should().NotBeNull();
-            relationships.Should().BeEmpty();
         }
 
         [Fact]
@@ -72,7 +88,7 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
         {
             //Arrange
             var relationshipId = Guid.NewGuid();
-            List<Relationship> relationships = new List<Relationship>
+            var relationships = new List<Relationship>()
             {
                 new Relationship()
                 {
@@ -83,24 +99,20 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
                 }
             };
 
-            var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
-
-            var relationServ = new RelationshipService(relationshipRep.Object, StandartMockBuilder.mockLoggerRelatServ);
-            var controller = new RelationshipController(relationServ, StandartMockBuilder.mockLoggerRelationController);
+            await TestDBFiller.AddRelationshipInDBNotTracked(webHost, relationships);
 
             //Act
             var forbidResult = await controller.DeleteRelationship(Guid.NewGuid(), relationshipId) as ForbidResult;
 
             //Assert
             forbidResult.Should().NotBeNull();
-            relationships.Should().NotBeEmpty();
         }
 
         [Fact]
         public async Task DeleteRelationship_WhenNotExistRelationshipIsNotMine_ReturnNotFound()
         {
             //Arrange
-            List<Relationship> relationships = new List<Relationship>
+            var relationships = new List<Relationship>()
             {
                 new Relationship()
                 {
@@ -111,17 +123,13 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
                 }
             };
 
-            var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
-
-            var relationServ = new RelationshipService(relationshipRep.Object, StandartMockBuilder.mockLoggerRelatServ);
-            var controller = new RelationshipController(relationServ, StandartMockBuilder.mockLoggerRelationController);
+            await TestDBFiller.AddRelationshipInDBNotTracked(webHost, relationships);
 
             //Act
             var forbidResult = await controller.DeleteRelationship(Guid.NewGuid(), Guid.NewGuid()) as ForbidResult;
 
             //Assert
             forbidResult.Should().NotBeNull();
-            relationships.Should().NotBeEmpty();
         }
 
         [Fact]
@@ -129,7 +137,7 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
         {
             //Arrange
             var relationshipId = Guid.NewGuid();
-            List<Relationship> relationships = new List<Relationship>
+            var relationships = new List<Relationship>()
             {
                 new Relationship()
                 {
@@ -140,24 +148,20 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
                 }
             };
 
-            var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
-
-            var relationServ = new RelationshipService(relationshipRep.Object, StandartMockBuilder.mockLoggerRelatServ);
-            var controller = new RelationshipController(relationServ, StandartMockBuilder.mockLoggerRelationController);
+            await TestDBFiller.AddRelationshipInDBNotTracked(webHost, relationships);
 
             //Act
             var noContentResult = await controller.DeleteRelationship(relationshipId) as NoContentResult;
 
             //Assert
             noContentResult.Should().NotBeNull();
-            relationships.Should().BeEmpty();
         }
 
         [Fact]
         public async Task DeleteRelationship_WhenNotExistRelationship_ReturnNotFound()
         {
             //Arrange
-            List<Relationship> relationships = new List<Relationship>
+            var relationships = new List<Relationship>()
             {
                 new Relationship()
                 {
@@ -168,17 +172,13 @@ namespace HCL.NotificationSubscriptionServer.API.Test.Controllers
                 }
             };
 
-            var relationshipRep = StandartMockBuilder.CreateRelationshipRepositoryMock(relationships);
-
-            var relationServ = new RelationshipService(relationshipRep.Object, StandartMockBuilder.mockLoggerRelatServ);
-            var controller = new RelationshipController(relationServ, StandartMockBuilder.mockLoggerRelationController);
+            await TestDBFiller.AddRelationshipInDBNotTracked(webHost, relationships);
 
             //Act
             var notFoundResult = await controller.DeleteRelationship(Guid.NewGuid()) as NotFoundResult;
 
             //Assert
             notFoundResult.Should().NotBeNull();
-            relationships.Should().NotBeEmpty();
         }
     }
 }

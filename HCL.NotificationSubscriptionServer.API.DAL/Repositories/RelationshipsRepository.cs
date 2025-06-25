@@ -3,11 +3,11 @@ using HCL.NotificationSubscriptionServer.API.Domain.Entities;
 
 namespace HCL.NotificationSubscriptionServer.API.DAL.Repositories
 {
-    public class RelationshipsRepositories : IRelationshipRepositories
+    public class RelationshipsRepository : IRelationshipRepository
     {
         private readonly AppDBContext _db;
 
-        public RelationshipsRepositories(AppDBContext db)
+        public RelationshipsRepository(AppDBContext db)
         {
             _db = db;
         }
